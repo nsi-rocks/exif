@@ -1,0 +1,45 @@
+{
+  "welcome": "Bienvenue",
+  "seo": {
+    "home": {
+      "title": "EXIF Rocks !",
+      "description": "Site dédié à l'informatique au lycée : ressources, tutoriels et formations."
+    }
+  },
+  "nsi": "Numérique et Sciences Informatiques. Cette matière est enseignée en classe de première et de terminale.",
+  "snt": "Sciences Numériques et Technologie. Cette matière est enseignée en classe de seconde.",
+  "exif": {
+    "title": "Lecteur EXIF (client-side)",
+    "description": "Les images ne quittent pas votre navigateur. Aucune donnée n'est envoyée sur un serveur.",
+    "urlTip": "Astuce : Vous pouvez charger une image directement via URL avec le paramètre ?url=https://...",
+    "upload": {
+      "label": "Déposez une image ici",
+      "description": "JPEG, PNG, WebP… (les EXIF dépendent de l'image)",
+      "selectButton": "Sélectionner une image",
+      "resetButton": "Réinitialiser"
+    },
+    "parsing": "Lecture des métadonnées…",
+    "loadingFromUrl": "Téléchargement de l'image depuis l'URL…",
+    "preview": {
+      "title": "Aperçu",
+      "alt": "Aperçu"
+    },
+    "gps": {
+      "title": "Position GPS",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "openInOSM": "Ouvrir dans OpenStreetMap",
+      "copy": "Copier"
+    },
+    "metadata": {
+      "title": "Métadonnées",
+      "key": "Clé",
+      "value": "Valeur",
+      "tip": "Astuce : cherchez"
+    },
+    "errors": {
+      "invalidFileType": "Choisis une image (JPEG/PNG/WebP/…)",
+      "parsingError": "Impossible de lire les métadonnées (image sans EXIF ?)"
+    }
+  }
+}

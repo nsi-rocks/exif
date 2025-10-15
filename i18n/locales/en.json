@@ -1,0 +1,45 @@
+{
+  "welcome": "Welcome",
+  "seo": {
+    "home": {
+      "title": "EXIF Rocks !",
+      "description": "Website dedicated to computer science in high school: resources, tutorials, and training."
+    }
+  },
+  "nsi": "Digital and Computer Science. This subject is taught in the first and final years of high school.",
+  "snt": "Digital Sciences and Technology. This subject is taught in the second year of high school.",
+  "exif": {
+    "title": "EXIF Reader (client-side)",
+    "description": "Images never leave your browser. No data is sent to any server.",
+    "urlTip": "Tip: You can load an image directly via URL with the parameter ?url=https://...",
+    "upload": {
+      "label": "Drop an image here",
+      "description": "JPEG, PNG, WebP… (EXIF depends on the image)",
+      "selectButton": "Select an image",
+      "resetButton": "Reset"
+    },
+    "parsing": "Reading metadata…",
+    "loadingFromUrl": "Loading image from URL…",
+    "preview": {
+      "title": "Preview",
+      "alt": "Preview"
+    },
+    "gps": {
+      "title": "GPS Position",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "openInOSM": "Open in OpenStreetMap",
+      "copy": "Copy"
+    },
+    "metadata": {
+      "title": "Metadata",
+      "key": "Key",
+      "value": "Value",
+      "tip": "Tip: look for"
+    },
+    "errors": {
+      "invalidFileType": "Choose an image (JPEG/PNG/WebP/…)",
+      "parsingError": "Unable to read metadata (image without EXIF?)"
+    }
+  }
+}
