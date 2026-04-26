@@ -2,18 +2,18 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-// Importer la liste des images au build time avec Vite
-const imageModules = import.meta.glob('/public/exemples/*.{jpg,jpeg,png,gif,webp,bmp}', { 
-  eager: true,
-  query: '?url',
-  import: 'default'
-})
-
-// Extraire les URLs des images
-const images = Object.keys(imageModules).map(path => {
-  // Convertir /public/exemples/image.jpg en /exemples/image.jpg
-  return path.replace('/public', '')
-})
+// Liste des images codée en dur
+const images = [
+  '/exemples/DSCN0010.jpg',
+  '/exemples/DSCN0012.jpg',
+  '/exemples/DSCN0021.jpg',
+  '/exemples/DSCN0025.jpg',
+  '/exemples/DSCN0027.jpg',
+  '/exemples/DSCN0029.jpg',
+  '/exemples/DSCN0038.jpg',
+  '/exemples/DSCN0040.jpg',
+  '/exemples/DSCN0042.jpg',
+]
 
 // Fonction pour naviguer vers la page d'accueil avec l'URL de l'image
 function viewImage(imageUrl: string) {
@@ -23,8 +23,6 @@ function viewImage(imageUrl: string) {
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <Header />
-    
     <main class="flex-1 container mx-auto px-4 py-8">
       <div class="max-w-6xl mx-auto">
         <h1 class="text-3xl font-bold mb-6">
