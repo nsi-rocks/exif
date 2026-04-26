@@ -64,15 +64,19 @@ watch(tabIndex, () => {
 
 // Restaurer l'état au montage du composant
 onMounted(async () => {
-  // console.log('Tentative de restauration de l\'état...')
+  console.log('onMounted déclenché')
+  console.log('route.query:', route.query)
 
   // Vérifier d'abord s'il y a un paramètre URL
   const urlParam = route.query.url as string
+  console.log('urlParam:', urlParam)
+  
   if (urlParam) {
     console.log('Chargement d\'image depuis URL:', urlParam)
     await loadImageFromUrl(urlParam)
   }
   else {
+    console.log('Pas d\'URL, restauration depuis localStorage')
     // Sinon, tenter de restaurer l'état depuis localStorage
     restoreState()
   }
