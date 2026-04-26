@@ -41,5 +41,10 @@
       "invalidFileType": "Choose an image (JPEG/PNG/WebP/…)",
       "parsingError": "Unable to read metadata (image without EXIF?)"
     }
+  },
+  "exemples": {
+    "title": "Example Images",
+    "error": "Error loading images",
+    "noImages": "No images available"
   }
 }

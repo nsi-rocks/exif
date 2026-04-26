@@ -69,7 +69,7 @@ onMounted(async () => {
   // Vérifier d'abord s'il y a un paramètre URL
   const urlParam = route.query.url as string
   if (urlParam) {
-    // console.log('Chargement d\'image depuis URL:', urlParam)
+    console.log('Chargement d\'image depuis URL:', urlParam)
     await loadImageFromUrl(urlParam)
   }
   else {
