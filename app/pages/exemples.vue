@@ -38,7 +38,7 @@ function viewImage(imageUrl: string) {
             v-for="imageUrl in images"
             :key="imageUrl"
             class="cursor-pointer group"
-            @click="viewImage(imageUrl)"
+            @click="viewImage('https://exif.nsi.rocks' + imageUrl)"
           >
             <div class="aspect-square overflow-hidden rounded-lg border-2 border-gray-200 hover:border-primary transition-colors">
               <img
