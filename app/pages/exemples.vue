@@ -13,6 +13,7 @@ const images = [
   '/exemples/DSCN0038.jpg',
   '/exemples/DSCN0040.jpg',
   '/exemples/DSCN0042.jpg',
+  '/exemples/photo1.jpg',
 ]
 
 // Fonction pour naviguer vers la page d'accueil avec l'URL de l'image
