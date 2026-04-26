@@ -62,22 +62,27 @@ watch(tabIndex, () => {
   }
 })
 
-// Restaurer l'état au montage du composant
-onMounted(async () => {
-  console.log('onMounted déclenché')
-  console.log('route.query:', route.query)
-
-  // Vérifier d'abord s'il y a un paramètre URL
-  const urlParam = route.query.url as string
-  console.log('urlParam:', urlParam)
-  
-  if (urlParam) {
+// Surveiller les changements de paramètre URL dans la route
+const hasLoadedFromUrl = ref(false)
+watch(() => route.query.url, async (urlParam) => {
+  console.log('Watch route.query.url déclenché:', urlParam)
+  if (urlParam && typeof urlParam === 'string' && !hasLoadedFromUrl.value) {
+    hasLoadedFromUrl.value = true
     console.log('Chargement d\'image depuis URL:', urlParam)
     await loadImageFromUrl(urlParam)
   }
-  else {
+}, { immediate: true })
+
+// Restaurer l'état au montage du composant (si pas d'URL)
+onMounted(async () => {
+  console.log('onMounted déclenché')
+  console.log('route.query:', route.query)
+  
+  // Attendre un peu pour laisser le router s'initialiser
+  await nextTick()
+  
+  if (!route.query.url && !hasLoadedFromUrl.value) {
     console.log('Pas d\'URL, restauration depuis localStorage')
-    // Sinon, tenter de restaurer l'état depuis localStorage
     restoreState()
   }
 })
