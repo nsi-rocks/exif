@@ -217,24 +217,6 @@ async function restoreState() {
       :description="$t('exif.upload.description')"
       class="w-full min-h-48"
     >
-      <!-- Bouton d'action explicite (optionnel) -->
-      <template #actions="{ open }">
-        <UButton
-          :label="$t('exif.upload.selectButton')"
-          icon="i-lucide-upload"
-          color="neutral"
-          variant="outline"
-          @click="open()"
-        />
-        <UButton
-          v-if="file"
-          :label="$t('exif.upload.resetButton')"
-          icon="i-lucide-x"
-          color="neutral"
-          variant="ghost"
-          @click="clearAll"
-        />
-      </template>
     </UFileUpload>
 
     <div v-if="isLoadingFromUrl" class="text-sm">
