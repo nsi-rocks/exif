@@ -21,17 +21,17 @@ function viewImage(imageUrl: string) {
 }
 </script>
 
-<template>1 container mx-auto px-4 py-8">
+<template>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    
+    <main class="flex-1 container mx-auto px-4 py-8">
       <div class="max-w-6xl mx-auto">
         <h1 class="text-3xl font-bold mb-6">
           {{ t('exemples.title') }}
         </h1>
         
-        <p v-if="error" class="text-red-500 mb-4">
-          {{ t('exemples.error') }}
-        </p>
-        
-        <p v-else-if="!images || images.length === 0" class="text-gray-500">
+        <p v-if="!images || images.length === 0" class="text-gray-500">
           {{ t('exemples.noImages') }}
         </p>
         
