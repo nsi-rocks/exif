@@ -4,6 +4,7 @@ export const useExifPersistence = () => {
 
   // Interface pour les données persistées
   interface PersistedExifData {
+    imageId?: string // Identifiant unique de l'image
     fileName?: string
     fileSize?: number
     fileType?: string
@@ -13,6 +14,11 @@ export const useExifPersistence = () => {
     groups?: ExifGroups | null
     tabIndex?: string
     errorMsg?: string | null
+  }
+
+  // Générer un identifiant unique pour un fichier
+  const generateImageId = (file: File): string => {
+    return `${file.name}_${file.size}_${file.lastModified}`
   }
 
   // Sauvegarder les données
@@ -97,5 +103,6 @@ export const useExifPersistence = () => {
     clearExifData,
     fileToBase64,
     createFileFromData,
+    generateImageId,
   }
 }

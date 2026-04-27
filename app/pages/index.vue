@@ -4,10 +4,11 @@ const localePath = useLocalePath()
 
 const route = useRoute()
 const router = useRouter()
-const { saveExifData, loadExifData, clearExifData, fileToBase64, createFileFromData } = useExifPersistence()
+const { saveExifData, loadExifData, clearExifData, fileToBase64, createFileFromData, generateImageId } = useExifPersistence()
 
 // Modèle de fichier unique contrôlé par UFileUpload
 const file = ref<File | null>(null)
+const currentImageId = ref<string | null>(null) // ID de l'image actuellement affichée
 const groups = ref<ExifGroups | null>(null)
 const isLoadingFromUrl = ref(false)
 
@@ -26,28 +27,50 @@ watch(file, async (f) => {
       errorMsg.value = t('exif.errors.invalidFileType')
       return
     }
+
+    // Générer un ID unique pour cette image
+    const imageId = generateImageId(f)
+    currentImageId.value = imageId
+
+    // Réinitialiser immédiatement les métadonnées pour éviter d'afficher les anciennes
+    groups.value = null
+    gps.value = null
+    errorMsg.value = null
+
     try {
-      errorMsg.value = null
-      gps.value = null
       isParsing.value = true
 
       const dims = await getDims(f)
-      groups.value = await parseWithGroups(f, dims)
+      const parsedGroups = await parseWithGroups(f, dims)
 
-      // Sauvegarder automatiquement après traitement
-      await nextTick()
-      saveCurrentState()
+      // Vérifier que l'image n'a pas changé pendant le parsing
+      if (currentImageId.value === imageId) {
+        groups.value = parsedGroups
+
+        // Sauvegarder automatiquement après traitement
+        await nextTick()
+        saveCurrentState()
+      }
+      else {
+        console.log('Image changée pendant le parsing, résultats ignorés')
+      }
     }
     catch (e) {
       console.error(e)
-      errorMsg.value = t('exif.errors.parsingError')
+      // Vérifier que l'image n'a pas changé avant d'afficher l'erreur
+      if (currentImageId.value === imageId) {
+        errorMsg.value = t('exif.errors.parsingError')
+      }
     }
     finally {
-      isParsing.value = false
+      if (currentImageId.value === imageId) {
+        isParsing.value = false
+      }
     }
   }
   else {
     // reset
+    currentImageId.value = null
     errorMsg.value = null
     gps.value = null
     groups.value = null
@@ -77,10 +100,10 @@ watch(() => route.query.url, async (urlParam) => {
 onMounted(async () => {
   console.log('onMounted déclenché')
   console.log('route.query:', route.query)
-  
+
   // Attendre un peu pour laisser le router s'initialiser
   await nextTick()
-  
+
   if (!route.query.url && !hasLoadedFromUrl.value) {
     console.log('Pas d\'URL, restauration depuis localStorage')
     restoreState()
@@ -152,11 +175,12 @@ async function loadImageFromUrl(imageUrl: string) {
 
 // Fonction pour sauvegarder l'état actuel
 async function saveCurrentState() {
-  if (!file.value) return
+  if (!file.value || !currentImageId.value) return
 
   try {
     const imageData = await fileToBase64(file.value)
     const dataToSave = {
+      imageId: currentImageId.value,
       fileName: file.value.name,
       fileSize: file.value.size,
       fileType: file.value.type,
@@ -189,7 +213,18 @@ async function restoreState() {
       savedData.imageData,
     )
 
+    // Générer l'ID pour vérifier la correspondance
+    const restoredImageId = generateImageId(restoredFile)
+
+    // Vérifier que l'ID sauvegardé correspond à l'ID du fichier restauré
+    if (savedData.imageId && savedData.imageId !== restoredImageId) {
+      console.warn('ID de l\'image ne correspond pas, restauration annulée')
+      clearExifData()
+      return
+    }
+
     // Restaurer tous les états
+    currentImageId.value = restoredImageId
     file.value = restoredFile
     gps.value = savedData.gps || null
     groups.value = savedData.groups || null
@@ -225,8 +260,7 @@ async function restoreState() {
       :label="$t('exif.upload.label')"
       :description="$t('exif.upload.description')"
       class="w-full min-h-48"
-    >
-    </UFileUpload>
+    />
 
     <div v-if="isLoadingFromUrl" class="text-sm">
       {{ $t('exif.loadingFromUrl') }}
